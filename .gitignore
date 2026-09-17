@@ -1,0 +1,8 @@
+# OAuthクライアントID等の個人情報・秘密情報はコミットしない
+client_secret*.json
+*client_secret*.json
+manifest.local.json
+*.local.json
+.env
+.DS_Store
+Thumbs.db

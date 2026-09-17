@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Gmail自動削除 - 未読/既読チェック",
+  "version": "0.2.0",
+  "description": "未読/既読を選択してGmailをチェックし、条件一致分を全件ゴミ箱送り/削除する拡張機能（サイドバー対応）",
+  "permissions": ["identity", "identity.email", "storage", "alarms", "sidePanel"],
+  "host_permissions": ["https://gmail.googleapis.com/"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Gmail自動削除（サイドバーで開く）"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "oauth2": {
+    "client_id": "YOUR_CLIENT_ID.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/gmail.modify"]
+  }
+}

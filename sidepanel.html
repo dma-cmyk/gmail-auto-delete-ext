@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gmail自動削除</title>
+<link rel="stylesheet" href="sidepanel.css" />
+</head>
+<body>
+<header class="sticky">
+  <div class="title-row">
+    <h1>Gmail自動削除</h1>
+    <span id="auth-status" class="pill">未ログイン</span>
+  </div>
+  <div class="row">
+    <button id="login-btn" class="secondary">ログイン</button>
+    <button id="logout-btn" class="secondary">ログアウト</button>
+    <button id="check-btn" class="primary">全件チェック</button>
+  </div>
+  <div id="query-preview" class="query"></div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>条件</h2>
+    <div class="grid">
+      <label>既読 / 未読
+        <select id="read-status">
+          <option value="unread">未読のみ</option>
+          <option value="read">既読のみ</option>
+          <option value="both">両方</option>
+        </select>
+      </label>
+      <label class="check"><input type="checkbox" id="inbox-only" checked /> 受信トレイのみ</label>
+    </div>
+    <label>送信者
+      <input type="text" id="from-input" placeholder="例: mail@example.com" />
+    </label>
+    <label>件名キーワード
+      <input type="text" id="subject-input" placeholder="例: 請求書" />
+    </label>
+    <div class="grid">
+      <label>何日より古い
+        <input type="number" id="older-input" min="0" placeholder="例: 30" />
+      </label>
+      <label>削除方式
+        <select id="delete-mode">
+          <option value="trash">ゴミ箱送り（復元可）</option>
+          <option value="permanent">完全削除（復元不可）</option>
+        </select>
+      </label>
+    </div>
+    <label>追加クエリ
+      <input type="text" id="extra-input" placeholder="例: has:attachment larger:1M" />
+    </label>
+  </section>
+
+  <section class="card">
+    <h2>チェック結果 <span id="result-count" class="count"></span></h2>
+    <div class="row">
+      <button id="stop-btn" class="secondary" disabled>停止</button>
+      <button id="delete-btn" class="danger" disabled>条件一致を全件削除</button>
+    </div>
+    <progress id="progress" value="0" max="100" hidden></progress>
+    <div id="progress-text" class="muted"></div>
+    <ul id="result-list"></ul>
+  </section>
+
+  <section class="card">
+    <h2>定期自動削除</h2>
+    <label class="check"><input type="checkbox" id="auto-enabled" /> 有効にする（条件一致を全件処理）</label>
+    <label>間隔（分）
+      <input type="number" id="auto-interval" value="60" min="1" />
+    </label>
+    <div class="row">
+      <button id="save-auto-btn" class="secondary">設定を保存</button>
+    </div>
+    <div id="auto-status" class="muted"></div>
+  </section>
+
+  <section class="card">
+    <h2>ログ</h2>
+    <div id="log"></div>
+    <div class="row">
+      <button id="clear-log-btn" class="secondary">ログ消去</button>
+    </div>
+  </section>
+</main>
+
+<script src="sidepanel.js"></script>
+</body>
+</html>

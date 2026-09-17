@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gmail自動削除</title>
+<link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+<h1>Gmail自動削除</h1>
+
+<section id="auth-section">
+  <div id="auth-status">未ログイン</div>
+  <button id="login-btn">Googleでログイン</button>
+  <button id="logout-btn">ログアウト</button>
+</section>
+
+<section>
+  <h2>1. 条件選択</h2>
+  <label>既読/未読:
+    <select id="read-status">
+      <option value="unread">未読のみ (is:unread)</option>
+      <option value="read">既読のみ (is:read)</option>
+      <option value="both">両方 (指定なし)</option>
+    </select>
+  </label>
+  <label><input type="checkbox" id="inbox-only" checked /> 受信トレイのみ (in:inbox)</label>
+  <label>送信者 (from):
+    <input type="text" id="from-input" placeholder="例: mail@example.com" />
+  </label>
+  <label>件名キーワード:
+    <input type="text" id="subject-input" placeholder="例: 請求書" />
+  </label>
+  <label>何日より古いメール:
+    <input type="number" id="older-input" min="0" placeholder="例: 30" /> 日より古い (older_than)
+  </label>
+  <label>追加クエリ (Gmail検索式):
+    <input type="text" id="extra-input" placeholder="例: has:attachment larger:1M" />
+  </label>
+  <label>最大チェック件数:
+    <input type="number" id="max-input" value="20" min="1" max="500" />
+  </label>
+  <div id="query-preview"></div>
+</section>
+
+<section>
+  <h2>2. チェック</h2>
+  <button id="check-btn">メールをチェック</button>
+  <div id="result-count"></div>
+  <ul id="result-list"></ul>
+</section>
+
+<section>
+  <h2>3. 削除</h2>
+  <label>削除方式:
+    <select id="delete-mode">
+      <option value="trash">ゴミ箱送り (推奨・復元可)</option>
+      <option value="permanent">完全削除 (復元不可)</option>
+    </select>
+  </label>
+  <button id="delete-btn" disabled>チェック結果を削除する</button>
+  <p class="note">※ゴミ箱送りは30日で自動消去・それまでは復元可。完全削除は元に戻せません。</p>
+</section>
+
+<section>
+  <h2>4. 定期自動削除</h2>
+  <label><input type="checkbox" id="auto-enabled" /> 定期自動削除を有効にする</label>
+  <label>間隔 (分):
+    <input type="number" id="auto-interval" value="60" min="1" />
+  </label>
+  <button id="save-auto-btn">自動削除設定を保存</button>
+  <div id="auto-status"></div>
+</section>
+
+<section>
+  <h2>ログ</h2>
+  <div id="log"></div>
+  <button id="clear-log-btn">ログ消去</button>
+</section>
+
+<script src="popup.js"></script>
+</body>
+</html>
