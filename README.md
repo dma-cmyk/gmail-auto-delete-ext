@@ -25,7 +25,7 @@ Gmail APIを使うため、自分のGoogleアカウントで1回だけ設定が�
 1. https://console.cloud.google.com/ でプロジェクト作成
 2. 「APIとサービス」→「ライブラリ」→「Gmail API」を有効化
 3. 「APIとサービス」→「OAuth同意画面」→ External / テストユーザーに自分のGmailを追加
-   - スコープに `https://www.googleapis.com/auth/gmail.modify` を追加
+   - スコープに `https://mail.google.com/` を追加（完全削除に必須。`gmail.modify` では完全削除APIが403になる）
 4. 「認証情報」→「認証情報を作成」→「OAuthクライアントID」→種類は **Chrome拡張機能**
    - アイテムID欄には、拡張を一度読み込んだ後に表示される拡張ID（chrome://extensions）を入力
 5. 発行されたクライアントID（`xxx.apps.googleusercontent.com`）を `.env` の `GMAIL_OAUTH_CLIENT_ID` に設定し、`./setup.sh` を実行
@@ -47,5 +47,7 @@ Gmail APIを使うため、自分のGoogleアカウントで1回だけ設定が�
 - 取得は手動2万件・自動5000件で安全停止、停止ボタンあり
 
 ## 注意
+- 完全削除は `users.messages.delete` を使用し、スコープ `https://mail.google.com/`（フルアクセス）が必須。スコープ変更後は拡張の再読み込み＋ログアウト→ログイン（トークン取り直し）が必要。
+- `https://mail.google.com/` は機密性の高いスコープのため、同意画面で警告が出る。個人利用・テストモードのまま使うこと。
 - 完全削除は復元不可。自己責任で。
 - 大量削除はGmail API制限に注意（500件/ページで全ページ取得、削除は並列5件ずつ実行）。
