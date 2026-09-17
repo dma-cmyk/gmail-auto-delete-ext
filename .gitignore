@@ -4,5 +4,7 @@ client_secret*.json
 manifest.local.json
 *.local.json
 .env
+# 生成ファイル（manifest.template.json + .env → ./setup.sh で生成）
+manifest.json
 .DS_Store
 Thumbs.db

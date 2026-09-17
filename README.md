@@ -4,14 +4,17 @@
 手動チェック＋削除と、定期自動削除の両方に対応。
 
 ## ファイル
-- `manifest.json` : MV3設定・OAuth・権限（サイドバー対応）
+- `manifest.template.json` : MV3設定のひな形（client_idはプレースホルダー）
+- `manifest.json` : 生成ファイル（`.env` + `./setup.sh` で生成、git管理外）
+- `.env.example` / `.env` : OAuthクライアントID置き場（`.env` はgit管理外）
+- `setup.sh` : `.env` から `manifest.json` を生成するスクリプト
 - `sidepanel.html` / `sidepanel.css` / `sidepanel.js` : サイドバーUI（全件チェック→全件削除→自動設定）
 - `popup.html` / `popup.css` / `popup.js` : 旧ポップアップ（予備、現在は未使用）
 - `background.js` : 定期自動削除 (chrome.alarms + Gmail API、全件処理)
 
 ## 使い方概要
 1. Google CloudでOAuthクライアントIDを取得（下記）
-2. `manifest.json` の `YOUR_CLIENT_ID` を置き換え
+2. `cp .env.example .env` → `.env` の `GMAIL_OAUTH_CLIENT_ID` を書き換え → `./setup.sh` で `manifest.json` を生成
 3. `chrome://extensions` で「デベロッパーモードON」→「パッケージ化されていない拡張機能を読み込む」→このフォルダを選択
 4. ツールバーの拡張アイコン→サイドバーが開く→「ログイン」
 5. 未読/既読・送信者・件名・日数などで条件選択→「全件チェック」→内容確認→「条件一致を全件削除」
@@ -25,7 +28,7 @@ Gmail APIを使うため、自分のGoogleアカウントで1回だけ設定が�
    - スコープに `https://www.googleapis.com/auth/gmail.modify` を追加
 4. 「認証情報」→「認証情報を作成」→「OAuthクライアントID」→種類は **Chrome拡張機能**
    - アイテムID欄には、拡張を一度読み込んだ後に表示される拡張ID（chrome://extensions）を入力
-5. 発行されたクライアントID（`xxx.apps.googleusercontent.com`）を `manifest.json` の `oauth2.client_id` に貼り付け
+5. 発行されたクライアントID（`xxx.apps.googleusercontent.com`）を `.env` の `GMAIL_OAUTH_CLIENT_ID` に設定し、`./setup.sh` を実行
 6. 拡張を「再読み込み」
 
 ※ 公開しない個人利用ならテストモードのままでOK。トークン期限切れ時は再ログイン。
